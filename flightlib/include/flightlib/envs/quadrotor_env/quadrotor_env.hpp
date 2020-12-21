@@ -49,13 +49,18 @@ class QuadrotorEnv final : public EnvBase {
 
   // - public OpenAI-gym-style functions
   bool reset(Ref<Vector<>> obs, const bool random = true) override;
+  bool reset(Ref<Vector<>> obs, std::vector<cv::Mat> img,
+             const bool random = true);
   Scalar step(const Ref<Vector<>> act, Ref<Vector<>> obs) override;
+  Scalar step(const Ref<Vector<>> act, Ref<Vector<>> obs,
+              std::vector<cv::Mat> img);
 
   // - public set functions
   bool loadParam(const YAML::Node &cfg);
 
   // - public get functions
   bool getObs(Ref<Vector<>> obs) override;
+  bool getObs(Ref<Vector<>> obs, std::vector<cv::Mat> img);
   bool getAct(Ref<Vector<>> act) const;
   bool getAct(Command *const cmd) const;
 
@@ -69,6 +74,9 @@ class QuadrotorEnv final : public EnvBase {
  private:
   // quadrotor
   std::shared_ptr<Quadrotor> quadrotor_ptr_;
+  bool added_camera_;
+  std::vector<bool> layers_;
+  std::shared_ptr<RGBCamera> rgb_camera_ptr_;
   QuadState quad_state_;
   Command cmd_;
   Logger logger_{"QaudrotorEnv"};

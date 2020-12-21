@@ -77,6 +77,8 @@ if(NOT DEFINED CATKIN_DEVEL_PREFIX)
   endif()
 endif()
 
+find_package(PythonLibs REQUIRED)
+
 ################################################################################
 # Setup Compilation
 ################################################################################
@@ -85,6 +87,7 @@ message(STATUS "======> Setup Compilation")
 add_definitions(-DEIGEN_STACK_ALLOCATION_LIMIT=1048576)
 include_directories(${EIGEN_INCLUDE_DIR} "tests")
 include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories(${PYTHON_INCLUDE_DIRS})
 
 # Set default build type
 if (NOT EXISTS ${CMAKE_BINARY_DIR}/CMakeCache.txt)
@@ -202,6 +205,7 @@ else()
   add_library(${PROJECT_NAME} ${FLIGHTLIB_SOURCES})
   target_link_libraries(${PROJECT_NAME} PRIVATE
     ${OpenCV_LIBRARIES}
+    ${PYTHON_LIBRARIES}
     yaml-cpp
     zmq
     zmqpp
@@ -227,7 +231,8 @@ if(FLIGHTLIB_GYM_SOURCES)
       ${PROJECT_SOURCE_DIR}/externals/eigen/eigen3 #pybind11 use #include <Eigen/Core>, however, flightmare use #include <eigen3/Eigen/Core>
       ${PROJECT_SOURCE_DIR}/include)  
   endif()
-  target_link_libraries(flightgym PRIVATE ${LIBRARY_NAME} )
+  target_link_libraries(flightgym PRIVATE ${LIBRARY_NAME} 
+  ${PYTHON_LIBRARIES})
 endif()
 
 if(ENABLE_BLAS AND BLAS_FOUND AND LAPACK_FOUND)
@@ -236,6 +241,7 @@ if(ENABLE_BLAS AND BLAS_FOUND AND LAPACK_FOUND)
     ${BLAS_LIBRARIES}
     ${LAPACK_LIBRARIES}
     ${LAPACKE_LIBRARIES}
+    ${PYTHON_LIBRARIES}
   )
 endif()
 
@@ -245,7 +251,8 @@ if(BUILD_TESTS AND FLIGHTLIB_GYM_TEST_SOURCES)
   target_link_libraries(test_gym
     ${LIBRARY_NAME}
     gtest
-    gtest_main)
+    gtest_main
+    ${PYTHON_LIBRARIES})
 add_test(test_gym test_gym)
 endif()
 
@@ -255,7 +262,8 @@ if(BUILD_TESTS AND FLIGHTLIB_TEST_SOURCES)
   target_link_libraries(test_lib PUBLIC
     ${LIBRARY_NAME}
     gtest
-    gtest_main)
+    gtest_main
+    ${PYTHON_LIBRARIES})
 add_test(test_lib test_lib)
 endif()
 
@@ -265,7 +273,8 @@ if(BUILD_UNITY_BRIDGE_TESTS AND FLIGHTLIB_UNITY_BRIDGE_TEST_SOURCES)
   target_link_libraries(test_unity_bridge PUBLIC
     ${LIBRARY_NAME}
     gtest
-    gtest_main)
+    gtest_main
+    ${PYTHON_LIBRARIES})
 add_test(test_unity_bridge test_unity_bridge)
 endif()
 

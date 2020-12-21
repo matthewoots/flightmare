@@ -5,15 +5,21 @@
 #include <pybind11/stl.h>
 
 // flightlib
+#include "flightlib/common/ndarray_converter.h"
 #include "flightlib/envs/env_base.hpp"
 #include "flightlib/envs/quadrotor_env/quadrotor_env.hpp"
 #include "flightlib/envs/test_env.hpp"
 #include "flightlib/envs/vec_env.hpp"
 
+// pybind11 ndarray_converter borrowed in spirit from
+// https://github.com/edmBernard/pybind11_opencv_numpy/
+
 namespace py = pybind11;
 using namespace flightlib;
 
 PYBIND11_MODULE(flightgym, m) {
+  NDArrayConverter::init_numpy();
+
   py::class_<VecEnv<QuadrotorEnv>>(m, "QuadrotorEnv_v1")
     .def(py::init<>())
     .def(py::init<const std::string&>())

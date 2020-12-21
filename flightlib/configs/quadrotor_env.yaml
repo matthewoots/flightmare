@@ -1,8 +1,17 @@
 quadrotor_env:
-   camera: no
    sim_dt: 0.02 
    max_t: 5.0
    add_camera: yes
+
+camera_env:
+   fov: 70.0
+   frame_height: 480
+   frame_width: 720
+   camera_rot: [1.0, 0.0, 0.0, 0.0]
+   camera_pos: [0.0, 0.0, 0.3]
+   depth_scale: 0.2
+   add_layers: [no, no, no] # depth, object segmentation, optical flow
+
 
 quadrotor_dynamics:
   mass: 0.73
