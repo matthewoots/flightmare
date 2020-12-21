@@ -232,7 +232,8 @@ if(FLIGHTLIB_GYM_SOURCES)
       ${PROJECT_SOURCE_DIR}/include)  
   endif()
   target_link_libraries(flightgym PRIVATE ${LIBRARY_NAME} 
-  ${PYTHON_LIBRARIES})
+  ${PYTHON_LIBRARIES}
+  ${OpenCV_LIBRARIES})
 endif()
 
 if(ENABLE_BLAS AND BLAS_FOUND AND LAPACK_FOUND)
@@ -242,6 +243,7 @@ if(ENABLE_BLAS AND BLAS_FOUND AND LAPACK_FOUND)
     ${LAPACK_LIBRARIES}
     ${LAPACKE_LIBRARIES}
     ${PYTHON_LIBRARIES}
+    ${OpenCV_LIBRARIES}
   )
 endif()
 
@@ -252,7 +254,8 @@ if(BUILD_TESTS AND FLIGHTLIB_GYM_TEST_SOURCES)
     ${LIBRARY_NAME}
     gtest
     gtest_main
-    ${PYTHON_LIBRARIES})
+    ${PYTHON_LIBRARIES}
+    ${OpenCV_LIBRARIES})
 add_test(test_gym test_gym)
 endif()
 
@@ -263,7 +266,8 @@ if(BUILD_TESTS AND FLIGHTLIB_TEST_SOURCES)
     ${LIBRARY_NAME}
     gtest
     gtest_main
-    ${PYTHON_LIBRARIES})
+    ${PYTHON_LIBRARIES}
+    ${OpenCV_LIBRARIES})
 add_test(test_lib test_lib)
 endif()
 
@@ -274,7 +278,8 @@ if(BUILD_UNITY_BRIDGE_TESTS AND FLIGHTLIB_UNITY_BRIDGE_TEST_SOURCES)
     ${LIBRARY_NAME}
     gtest
     gtest_main
-    ${PYTHON_LIBRARIES})
+    ${PYTHON_LIBRARIES}
+    ${OpenCV_LIBRARIES})
 add_test(test_unity_bridge test_unity_bridge)
 endif()
 

@@ -27,11 +27,11 @@ class VecEnv {
   ~VecEnv();
 
   // - public OpenAI-gym style functions for vectorized environment
-  bool reset(Ref<MatrixRowMajor<>> obs);
+  // bool reset(Ref<MatrixRowMajor<>> obs);
   bool reset(Ref<MatrixRowMajor<>> obs, std::vector<std::vector<cv::Mat>> img);
-  bool step(Ref<MatrixRowMajor<>> act, Ref<MatrixRowMajor<>> obs,
-            Ref<Vector<>> reward, Ref<BoolVector<>> done,
-            Ref<MatrixRowMajor<>> extra_info);
+  // bool step(Ref<MatrixRowMajor<>> act, Ref<MatrixRowMajor<>> obs,
+  //           Ref<Vector<>> reward, Ref<BoolVector<>> done,
+  //           Ref<MatrixRowMajor<>> extra_info);
   bool step(Ref<MatrixRowMajor<>> act, Ref<MatrixRowMajor<>> obs,
             std::vector<std::vector<cv::Mat>> img, Ref<Vector<>> reward,
             Ref<BoolVector<>> done, Ref<MatrixRowMajor<>> extra_info);
@@ -44,15 +44,15 @@ class VecEnv {
   void setSeed(const int seed);
 
   // public get functions
-  void getObs(Ref<MatrixRowMajor<>> obs);
+  // void getObs(Ref<MatrixRowMajor<>> obs);
   void getObs(Ref<MatrixRowMajor<>> obs, std::vector<std::vector<cv::Mat>> img);
   size_t getEpisodeLength(void);
 
   // - auxiliary functions
   void isTerminalState(Ref<BoolVector<>> terminal_state);
-  void testStep(Ref<MatrixRowMajor<>> act, Ref<MatrixRowMajor<>> obs,
-                Ref<Vector<>> reward, Ref<BoolVector<>> done,
-                Ref<MatrixRowMajor<>> extra_info);
+  // void testStep(Ref<MatrixRowMajor<>> act, Ref<MatrixRowMajor<>> obs,
+  //               Ref<Vector<>> reward, Ref<BoolVector<>> done,
+  //               Ref<MatrixRowMajor<>> extra_info);
   void testStep(Ref<MatrixRowMajor<>> act, Ref<MatrixRowMajor<>> obs,
                 std::vector<std::vector<cv::Mat>> img, Ref<Vector<>> reward,
                 Ref<BoolVector<>> done, Ref<MatrixRowMajor<>> extra_info);
@@ -82,9 +82,10 @@ class VecEnv {
   // initialization
   void init(void);
   // step every environment
-  void perAgentStep(int agent_id, Ref<MatrixRowMajor<>> act,
-                    Ref<MatrixRowMajor<>> obs, Ref<Vector<>> reward,
-                    Ref<BoolVector<>> done, Ref<MatrixRowMajor<>> extra_info);
+  // void perAgentStep(int agent_id, Ref<MatrixRowMajor<>> act,
+  //                   Ref<MatrixRowMajor<>> obs, Ref<Vector<>> reward,
+  //                   Ref<BoolVector<>> done, Ref<MatrixRowMajor<>>
+  //                   extra_info);
 
   void perAgentStep(int agent_id, Ref<MatrixRowMajor<>> act,
                     Ref<MatrixRowMajor<>> obs,

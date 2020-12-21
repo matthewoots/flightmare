@@ -24,9 +24,13 @@ class EnvBase {
   virtual ~EnvBase() = 0;
 
   // (pure virtual) public methods (has to be implemented by child classes)
-  virtual bool reset(Ref<Vector<>> obs, const bool random = true) = 0;
-  virtual Scalar step(const Ref<Vector<>> act, Ref<Vector<>> obs) = 0;
-  virtual bool getObs(Ref<Vector<>> obs) = 0;
+  // virtual bool reset(Ref<Vector<>> obs, std::vector<std::vector<cv::Mat>>
+  // img,
+  //                    const bool random = true) = 0;
+  // virtual Scalar step(const Ref<Vector<>> act, Ref<Vector<>> obs,
+  //                     std::vector<std::vector<cv::Mat>> img) = 0;
+  // virtual bool getObs(Ref<Vector<>> obs,
+  //                     std::vector<std::vector<cv::Mat>> img) = 0;
 
   // (virtual) public methods (implementations are optional.)
   virtual void curriculumUpdate();

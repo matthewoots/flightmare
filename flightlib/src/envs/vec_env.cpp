@@ -61,20 +61,20 @@ void VecEnv<EnvBase>::init(void) {
 template<typename EnvBase>
 VecEnv<EnvBase>::~VecEnv() {}
 
-template<typename EnvBase>
-bool VecEnv<EnvBase>::reset(Ref<MatrixRowMajor<>> obs) {
-  if (obs.rows() != num_envs_ || obs.cols() != obs_dim_) {
-    logger_.error(
-      "Input matrix dimensions do not match with that of the environment.");
-    return false;
-  }
+// template<typename EnvBase>
+// bool VecEnv<EnvBase>::reset(Ref<MatrixRowMajor<>> obs) {
+//   if (obs.rows() != num_envs_ || obs.cols() != obs_dim_) {
+//     logger_.error(
+//       "Input matrix dimensions do not match with that of the environment.");
+//     return false;
+//   }
 
-  receive_id_ = 0;
-  for (int i = 0; i < num_envs_; i++) {
-    envs_[i]->reset(obs.row(i));
-  }
-  return true;
-}
+//   receive_id_ = 0;
+//   for (int i = 0; i < num_envs_; i++) {
+//     envs_[i]->reset(obs.row(i));
+//   }
+//   return true;
+// }
 
 template<typename EnvBase>
 bool VecEnv<EnvBase>::reset(Ref<MatrixRowMajor<>> obs,
@@ -92,32 +92,33 @@ bool VecEnv<EnvBase>::reset(Ref<MatrixRowMajor<>> obs,
   return true;
 }
 
-template<typename EnvBase>
-bool VecEnv<EnvBase>::step(Ref<MatrixRowMajor<>> act, Ref<MatrixRowMajor<>> obs,
-                           Ref<Vector<>> reward, Ref<BoolVector<>> done,
-                           Ref<MatrixRowMajor<>> extra_info) {
-  if (act.rows() != num_envs_ || act.cols() != act_dim_ ||
-      obs.rows() != num_envs_ || obs.cols() != obs_dim_ ||
-      reward.rows() != num_envs_ || reward.cols() != 1 ||
-      done.rows() != num_envs_ || done.cols() != 1 ||
-      extra_info.rows() != num_envs_ ||
-      extra_info.cols() != extra_info_names_.size()) {
-    logger_.error(
-      "Input matrix dimensions do not match with that of the environment.");
-    return false;
-  }
+// template<typename EnvBase>
+// bool VecEnv<EnvBase>::step(Ref<MatrixRowMajor<>> act, Ref<MatrixRowMajor<>>
+// obs,
+//                            Ref<Vector<>> reward, Ref<BoolVector<>> done,
+//                            Ref<MatrixRowMajor<>> extra_info) {
+//   if (act.rows() != num_envs_ || act.cols() != act_dim_ ||
+//       obs.rows() != num_envs_ || obs.cols() != obs_dim_ ||
+//       reward.rows() != num_envs_ || reward.cols() != 1 ||
+//       done.rows() != num_envs_ || done.cols() != 1 ||
+//       extra_info.rows() != num_envs_ ||
+//       extra_info.cols() != extra_info_names_.size()) {
+//     logger_.error(
+//       "Input matrix dimensions do not match with that of the environment.");
+//     return false;
+//   }
 
-#pragma omp parallel for schedule(dynamic)
-  for (int i = 0; i < num_envs_; i++) {
-    perAgentStep(i, act, obs, reward, done, extra_info);
-  }
+// #pragma omp parallel for schedule(dynamic)
+//   for (int i = 0; i < num_envs_; i++) {
+//     perAgentStep(i, act, obs, reward, done, extra_info);
+//   }
 
-  if (unity_render_ && unity_ready_) {
-    unity_bridge_ptr_->getRender(0);
-    unity_bridge_ptr_->handleOutput();
-  }
-  return true;
-}
+//   if (unity_render_ && unity_ready_) {
+//     unity_bridge_ptr_->getRender(0);
+//     unity_bridge_ptr_->handleOutput();
+//   }
+//   return true;
+// }
 
 template<typename EnvBase>
 bool VecEnv<EnvBase>::step(Ref<MatrixRowMajor<>> act, Ref<MatrixRowMajor<>> obs,
@@ -148,14 +149,14 @@ bool VecEnv<EnvBase>::step(Ref<MatrixRowMajor<>> act, Ref<MatrixRowMajor<>> obs,
 }
 
 
-template<typename EnvBase>
-void VecEnv<EnvBase>::testStep(Ref<MatrixRowMajor<>> act,
-                               Ref<MatrixRowMajor<>> obs, Ref<Vector<>> reward,
-                               Ref<BoolVector<>> done,
-                               Ref<MatrixRowMajor<>> extra_info) {
-  perAgentStep(0, act, obs, reward, done, extra_info);
-  envs_[0]->getObs(obs.row(0));
-}
+// template<typename EnvBase>
+// void VecEnv<EnvBase>::testStep(Ref<MatrixRowMajor<>> act,
+//                                Ref<MatrixRowMajor<>> obs, Ref<Vector<>>
+//                                reward, Ref<BoolVector<>> done,
+//                                Ref<MatrixRowMajor<>> extra_info) {
+//   perAgentStep(0, act, obs, reward, done, extra_info);
+//   envs_[0]->getObs(obs.row(0));
+// }
 
 template<typename EnvBase>
 void VecEnv<EnvBase>::testStep(Ref<MatrixRowMajor<>> act,
@@ -180,10 +181,10 @@ void VecEnv<EnvBase>::setSeed(const int seed) {
   for (int i = 0; i < num_envs_; i++) envs_[i]->setSeed(seed_inc++);
 }
 
-template<typename EnvBase>
-void VecEnv<EnvBase>::getObs(Ref<MatrixRowMajor<>> obs) {
-  for (int i = 0; i < num_envs_; i++) envs_[i]->getObs(obs.row(i));
-}
+// template<typename EnvBase>
+// void VecEnv<EnvBase>::getObs(Ref<MatrixRowMajor<>> obs) {
+//   for (int i = 0; i < num_envs_; i++) envs_[i]->getObs(obs.row(i));
+// }
 
 template<typename EnvBase>
 void VecEnv<EnvBase>::getObs(Ref<MatrixRowMajor<>> obs,
@@ -200,27 +201,27 @@ size_t VecEnv<EnvBase>::getEpisodeLength(void) {
   }
 }
 
-template<typename EnvBase>
-void VecEnv<EnvBase>::perAgentStep(int agent_id, Ref<MatrixRowMajor<>> act,
-                                   Ref<MatrixRowMajor<>> obs,
-                                   Ref<Vector<>> reward, Ref<BoolVector<>> done,
-                                   Ref<MatrixRowMajor<>> extra_info) {
-  reward(agent_id) =
-    envs_[agent_id]->step(act.row(agent_id), obs.row(agent_id));
+// template<typename EnvBase>
+// void VecEnv<EnvBase>::perAgentStep(int agent_id, Ref<MatrixRowMajor<>> act,
+//                                    Ref<MatrixRowMajor<>> obs,
+//                                    Ref<Vector<>> reward, Ref<BoolVector<>>
+//                                    done, Ref<MatrixRowMajor<>> extra_info) {
+//   reward(agent_id) =
+//     envs_[agent_id]->step(act.row(agent_id), obs.row(agent_id));
 
-  Scalar terminal_reward = 0;
-  done(agent_id) = envs_[agent_id]->isTerminalState(terminal_reward);
+//   Scalar terminal_reward = 0;
+//   done(agent_id) = envs_[agent_id]->isTerminalState(terminal_reward);
 
-  envs_[agent_id]->updateExtraInfo();
-  for (int j = 0; j < extra_info.size(); j++)
-    extra_info(agent_id, j) =
-      envs_[agent_id]->extra_info_[extra_info_names_[j]];
+//   envs_[agent_id]->updateExtraInfo();
+//   for (int j = 0; j < extra_info.size(); j++)
+//     extra_info(agent_id, j) =
+//       envs_[agent_id]->extra_info_[extra_info_names_[j]];
 
-  if (done[agent_id]) {
-    envs_[agent_id]->reset(obs.row(agent_id));
-    reward(agent_id) += terminal_reward;
-  }
-}
+//   if (done[agent_id]) {
+//     envs_[agent_id]->reset(obs.row(agent_id));
+//     reward(agent_id) += terminal_reward;
+//   }
+// }
 
 template<typename EnvBase>
 void VecEnv<EnvBase>::perAgentStep(int agent_id, Ref<MatrixRowMajor<>> act,

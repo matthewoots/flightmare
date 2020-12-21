@@ -48,10 +48,10 @@ class QuadrotorEnv final : public EnvBase {
   ~QuadrotorEnv();
 
   // - public OpenAI-gym-style functions
-  bool reset(Ref<Vector<>> obs, const bool random = true) override;
+  // bool reset(Ref<Vector<>> obs, const bool random = true) override;
   bool reset(Ref<Vector<>> obs, std::vector<cv::Mat> img,
              const bool random = true);
-  Scalar step(const Ref<Vector<>> act, Ref<Vector<>> obs) override;
+  // Scalar step(const Ref<Vector<>> act, Ref<Vector<>> obs) override;
   Scalar step(const Ref<Vector<>> act, Ref<Vector<>> obs,
               std::vector<cv::Mat> img);
 
@@ -59,7 +59,7 @@ class QuadrotorEnv final : public EnvBase {
   bool loadParam(const YAML::Node &cfg);
 
   // - public get functions
-  bool getObs(Ref<Vector<>> obs) override;
+  // bool getObs(Ref<Vector<>> obs) override;
   bool getObs(Ref<Vector<>> obs, std::vector<cv::Mat> img);
   bool getAct(Ref<Vector<>> act) const;
   bool getAct(Command *const cmd) const;
