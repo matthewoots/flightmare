@@ -1,4 +1,4 @@
-# Flightmare - 左青龙
+# Flightmare fork - 左青龙
 
 ![Build Status](https://github.com/uzh-rpg/flightmare/workflows/CPP_CI/badge.svg) ![clang format](https://github.com/uzh-rpg/flightmare/workflows/clang_format/badge.svg)
 ![License](https://img.shields.io/badge/License-MIT-blue.svg) ![website]( https://img.shields.io/website-up-down-green-red/https/naereen.github.io.svg)
@@ -12,10 +12,16 @@ Flightmare can be used for various applications, including path-planning, reinfo
 **[Website](https://uzh-rpg.github.io/flightmare/)** & 
 **[Documentation](https://flightmare.readthedocs.io/)** 
 
-[![IMAGE ALT TEXT HERE](./docs/flightmare_main.png)](https://youtu.be/m9Mx1BCNGFU)
-
 ## Installation
 Installation instructions can be found in our [Wiki](https://github.com/uzh-rpg/flightmare/wiki).
+UPDATE :
+```
+git clone https://github.com/matthewoots/flightmare.git
+```
+
+```
+cd flightmare && sh installation.sh
+```
   
 ## Updates
  *  17.11.2020 [Spotlight](https://youtu.be/8JyrjPLt8wo) Talk at CoRL 2020 
